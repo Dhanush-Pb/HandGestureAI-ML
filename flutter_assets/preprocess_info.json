@@ -1,0 +1,19 @@
+{
+  "img_size": 192,
+  "inner": 124,
+  "pad": 34,
+  "offset": 0.17708333333333334,
+  "scale": 0.6458333333333334,
+  "guide_fraction": 0.8,
+  "confidence": 0.7,
+  "smooth_frames": 6,
+  "labels": [
+    "call_me",
+    "fist",
+    "five",
+    "flat_hand",
+    "love_you",
+    "pinch",
+    "thumb_side"
+  ]
+}

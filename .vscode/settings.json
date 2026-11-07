@@ -1,0 +1,14 @@
+{
+    "git.ignoreLimitWarning": true,
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "files.watcherExclude": {
+        "**/data/**": true
+    },
+    "search.exclude": {
+        "**/data": true
+    },
+    "files.exclude": {
+        "**/data": true
+    },
+    "python.analysis.exclude": ["**/data"]
+}

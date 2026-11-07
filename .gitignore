@@ -1,0 +1,20 @@
+
+# Dataset images
+data/data_set/
+data/dataset/
+*.jpg
+*.jpeg
+*.png
+
+# Python cache
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Temporary files
+*.log
+.ipynb_checkpoints/
+
+# Keep generated CSV out unless intentionally sharing it
+# data/gestures_hg14.csv
