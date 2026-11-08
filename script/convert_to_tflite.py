@@ -10,12 +10,18 @@ from keras import layers
 
 from landmark_utils import (LANDMARK_MODEL_PATH, IMG_SIZE, INNER, PAD, OFFSET,
                             SCALE, decode, normalize, to_model_input)
+from common.paths import (
+    PROJECT_ROOT,
+    OUTPUT_DIR,
+    HG14_DIR,
+    GESTURE_MODEL,
+    GESTURE_LABELS,
+)
 
-BASE = Path(__file__).parent
-OUT = BASE / "flutter_assets"
-OUT.mkdir(exist_ok=True)
-HG14 = BASE / "data" / "data_set" / "HG14-Hand Gesture"
-
+BASE = PROJECT_ROOT
+OUT = OUTPUT_DIR / "flutter_assets"
+OUT.mkdir(parents=True, exist_ok=True)
+HG14 = HG14_DIR
 
 class SoftArgmax(layers.Layer):
     """21 heat maps -> 42 numbers (x, y per point, 0..1). Same maths as decode()."""
@@ -36,8 +42,7 @@ class SoftArgmax(layers.Layer):
 heat_model = keras.models.load_model(LANDMARK_MODEL_PATH)
 inp = keras.Input((IMG_SIZE, IMG_SIZE, 3))
 points_model = keras.Model(inp, SoftArgmax()(heat_model(inp, training=False)))
-classifier = keras.models.load_model(BASE / "gesture_model.keras")
-
+classifier = keras.models.load_model(GESTURE_MODEL)
 
 def convert(model, path, name):
     try:
@@ -56,9 +61,10 @@ LM_PATH = OUT / "hand_landmarks.tflite"
 CL_PATH = OUT / "gesture_classifier.tflite"
 convert(points_model, LM_PATH, "landmarks")
 convert(classifier, CL_PATH, "classifier")
+with open(GESTURE_LABELS, "r") as f:
+    labels = json.load(f)
 
-labels = json.load(open(BASE / "gesture_labels.json"))
-shutil.copy(BASE / "gesture_labels.json", OUT / "gesture_labels.json")
+shutil.copy(GESTURE_LABELS, OUT / "gesture_labels.json")
 info = {"img_size": IMG_SIZE, "inner": INNER, "pad": PAD, "offset": OFFSET,
         "scale": SCALE, "guide_fraction": 0.8, "confidence": 0.7,
         "smooth_frames": 6, "labels": labels}

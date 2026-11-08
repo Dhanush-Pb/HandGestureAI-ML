@@ -1,14 +1,17 @@
-
-# Dataset images
+# Dataset directories
 data/data_set/
 data/dataset/
+
+# Dataset images
 *.jpg
 *.jpeg
 *.png
 
 # Python cache
 __pycache__/
-*.pyc
+*.py[cod]
+
+# Virtual environments
 .venv/
 venv/
 
@@ -16,5 +19,13 @@ venv/
 *.log
 .ipynb_checkpoints/
 
-# Keep generated CSV out unless intentionally sharing it
+# Training checkpoints and backups
+*.weights.h5
+output/backup_v3/
+
+# Temporary screenshots
+shot_*.png
+
+# Generated files
+# Uncomment only if you do not want to push the processed CSV
 # data/gestures_hg14.csv

@@ -1,0 +1,7 @@
+tensorflow==2.22.0
+opencv-python==5.0.0
+numpy
+pandas
+scikit-learn
+matplotlib
+Pillow

@@ -1,5 +1,6 @@
 import json
 import math
+import sys
 from pathlib import Path
 
 import cv2
@@ -8,32 +9,49 @@ import tensorflow as tf
 from tensorflow import keras
 from keras import layers
 
+# Project root: gesture_ml
+BASE = Path(__file__).resolve().parents[1]
+
+# Allow this script to import src/common/paths.py
+sys.path.insert(0, str(BASE / "src"))
+
+from common.paths import (
+    PROJECT_ROOT,
+    FREIHAND_DIR,
+    LANDMARK_MODEL,
+    MODEL_DIR,
+    OUTPUT_DIR,
+)
 # --------------------------------------------------
 # Settings
 # --------------------------------------------------
-QUICK_TEST = False       # True = 20-30 min test, False = medium run
+QUICK_TEST = False
 
-BASE = Path(__file__).parent
-DATA_DIR = BASE / "data" / "data_set"
-IMAGE_DIR = DATA_DIR / "freihand" / "rgb"
+BASE = PROJECT_ROOT
 
-SRC = 224                # FreiHAND image size
-IMG_SIZE = 192           # model input size
-HEAT = IMG_SIZE // 4     # heat map size (48)
-SIGMA = 2.0              # size of the Gaussian blob, in heat map cells
+DATA_DIR = FREIHAND_DIR.parent
+IMAGE_DIR = FREIHAND_DIR / "rgb"
+
+SRC = 224
+IMG_SIZE = 192
+HEAT = IMG_SIZE // 4
+SIGMA = 2.0
 BATCH = 32
 
 if QUICK_TEST:
     EPOCHS, STEPS = 3, 60
 else:
-    EPOCHS, STEPS = 12, 400      # 12 x 400 x 32 = 153,600 samples
+    EPOCHS, STEPS = 12, 400
 
 PEAK_LR, MIN_LR, WARM = 5e-4, 2e-5, 2
 
-MODEL_PATH = BASE / "landmark_heatmap_v3.keras"       # used by live_landmarks_v3.py
-WEIGHTS_PATH = BASE / "best_v3.weights.h5"
-BACKUP_DIR = BASE / "backup_v3"
+MODEL_PATH = LANDMARK_MODEL
+WEIGHTS_PATH = MODEL_DIR / "best_v3.weights.h5"
+BACKUP_DIR = OUTPUT_DIR / "backup_v3"
 
+MODEL_DIR.mkdir(parents=True, exist_ok=True)
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+BACKUP_DIR.mkdir(parents=True, exist_ok=True)
 # --------------------------------------------------
 # 1. Labels: 3D points -> 2D pixels (in the 224 x 224 image)
 # --------------------------------------------------
@@ -294,7 +312,6 @@ def save_preview(aug, path):
     rows = [np.hstack(tiles[r:r + 4]) for r in range(0, 8, 4)]
     cv2.imwrite(str(path), np.vstack(rows))
 
-
-save_preview(False, BASE / "v3_preview.png")
-save_preview(True, BASE / "v3_preview_hard.png") 
+save_preview(False, OUTPUT_DIR / "v3_preview.png")
+save_preview(True, OUTPUT_DIR / "v3_preview_hard.png")
 print("Saved v3_preview.png and v3_preview_hard.png")

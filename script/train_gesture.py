@@ -12,14 +12,15 @@ from sklearn.metrics import confusion_matrix, classification_report
 # --------------------------------------------------
 # SETTINGS
 # --------------------------------------------------
+from common.paths import (
+    GESTURE_CSV,
+    GESTURE_MODEL,
+    GESTURE_LABELS,
+)
 
-BASE = Path(__file__).parent
-
-CSV = BASE / "data" / "gestures_hg14.csv"
-
-MODEL_OUT = BASE / "gesture_model.keras"
-LABELS_OUT = BASE / "gesture_labels.json"
-
+CSV = GESTURE_CSV
+MODEL_OUT = GESTURE_MODEL
+LABELS_OUT = GESTURE_LABELS
 BATCH_SIZE = 32
 EPOCHS = 150
 

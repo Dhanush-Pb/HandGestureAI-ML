@@ -3,9 +3,9 @@ from pathlib import Path
 import cv2
 import numpy as np
 from tensorflow import keras
+from common.paths import LANDMARK_MODEL
 
-BASE = Path(__file__).parent
-MODEL_PATH = BASE / "landmark_heatmap_v3.keras"
+MODEL_PATH = LANDMARK_MODEL
 IMG_SIZE = 192            # must match training
 SMOOTHING = 0.5           # 0 = no smoothing, closer to 1 = steadier but slower
 

@@ -1,11 +1,13 @@
+
 from pathlib import Path
 
 import cv2
 import numpy as np
 from tensorflow import keras
 
-BASE = Path(__file__).parent
-LANDMARK_MODEL_PATH = BASE / "landmark_heatmap_v3.keras"
+from common.paths import LANDMARK_MODEL
+
+LANDMARK_MODEL_PATH = LANDMARK_MODEL
 IMG_SIZE = 192            # must match training
 
 # The hand picture is shrunk to this fraction and centred on a plain background.
